@@ -36,6 +36,20 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Create a POST endpoint to add data to the database
+
+app.get("/", async (req, res) => {
+  try {
+    // Query the database to retrieve all users
+    const users = await User.find();
+
+    // Respond with the list of users
+    res.json(users);
+  } catch (error) {
+    console.error("Error while fetching users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.post("/api/users", async (req, res) => {
   try {
     const { name, email } = req.body;
